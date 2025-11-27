@@ -1,4 +1,42 @@
-<h2>Meeting detail</h2>
+<h2>Meeting detail: {{ (meeting$ | async)?.title ?? "" }}</h2>
 @if(meeting$ | async; as meeting) {
-    {{meeting | json}}
+<!-- TODO make this a saparated component -->
+<div class="overview">
+  <div>{{ meeting.id }}</div>
+  <div>{{ meeting.title }}</div>
+  <div>{{ meeting.started_at | date : "d/M/yy h:mm a" }}</div>
+  <div>{{ meeting.created_at | date : "d/M/yy h:mm a" }}</div>
+  <div><a [routerLink]="[meeting.id]">Edit</a></div>
+</div>
+
+<div class="notes">
+  <h3>Notes:</h3>
+  @if(notes$ | async; as notes) {
+  <div class="notes-overview">
+    <div class="header">Id</div>
+    <div class="header">Author</div>
+    <div class="header">Content</div>
+    <div class="header">Created_at</div>
+    @for (note of notes; track $index) {
+    <div>{{ note.id }}</div>
+    <div>{{ note.author }}</div>
+    <div>{{ note.text }}</div>
+    <div>{{ note.created_at  | date : "d/M/yy h:mm a" }}</div>
+    }
+  </div>
+  } @else {
+  <p>loading...</p>
+  }
+</div>
+} @else {
+<p>loading...</p>
 }
+
+<h3>Add Note</h3>
+<div class="note-form">
+    <label for="author">author:</label>
+    <input id="author" type="text"  [formControl]="noteFormGroup.controls.author"/>
+    <label for="note-text">content:</label>
+    <textarea id="note-text" [formControl]="noteFormGroup.controls.text"></textarea>
+    <button (click)="addNote()" [disabled]="noteFormGroup.pristine || noteFormGroup.invalid">add</button>
+</div>

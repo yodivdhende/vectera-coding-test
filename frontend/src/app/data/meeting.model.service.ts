@@ -6,7 +6,7 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class MeetingModelService {
     private http = inject(HttpClient);
-    private serverUrl = "http://localhost:8000/api";
+    private serverUrl = "http://localhost:8000/api"; //TODO should come from a config file
 
     public getAll(): Observable<Meeting[]> {
         return this.http.get<MeetingPage>(`${this.serverUrl}/meetings`).pipe(
@@ -15,8 +15,7 @@ export class MeetingModelService {
     }
 
     public getById(id: number): Observable<Meeting> {
-        console.log('fetching by id', id);
-        return this.http.get<Meeting>(`${this.serverUrl}/meetings/${id}`).pipe(
+        return this.http.get<Meeting>(`${this.serverUrl}/meetings/${id}/`).pipe(
         );
     }
 }

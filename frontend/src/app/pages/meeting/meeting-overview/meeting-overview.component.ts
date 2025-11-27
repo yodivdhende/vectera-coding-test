@@ -13,7 +13,7 @@ import { RouterLink } from "@angular/router";
     RouterLink
 ],
     providers: [
-        MeetingModelService,
+        MeetingModelService, //TODO: this okay for now, if we want storage we should move this to the routes or module.
     ]
 })
 export class MeetingOverviewComponent{
