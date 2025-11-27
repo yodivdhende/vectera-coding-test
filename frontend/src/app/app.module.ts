@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
+  {
+    path:'meetings',
+    loadChildren: () => import('./pages/meeting/meeting.module').then(module => module.MeetingModule)
+  }
 ];
 
 @NgModule({

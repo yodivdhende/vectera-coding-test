@@ -4,12 +4,12 @@ from .models import Meeting, Note, Summary
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ["id", "author", "text", "created_at"]
+        fields = ("id", "author", "text", "created_at")
 
 class SummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Summary
-        fields = ["id", "content", "status", "created_at", "updated_at"]
+        fields = ("id", "content", "status", "created_at", "updated_at")
 
 class MeetingSerializer(serializers.ModelSerializer):
     note_count = serializers.IntegerField(read_only=True)
@@ -17,4 +17,4 @@ class MeetingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meeting
-        fields = ["id", "title", "started_at", "created_at", "note_count", "latest_summary"]
+        fields = ("id", "title", "started_at", "created_at", "note_count", "latest_summary")
