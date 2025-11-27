@@ -5,7 +5,7 @@ export type MeetingPage = {
     results: Meeting[]; 
 }
 export type Meeting = {
-    id: number;
+    id: number
     title: string;
     started_at: Date;
     created_at: Date;

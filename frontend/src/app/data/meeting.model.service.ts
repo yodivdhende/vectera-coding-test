@@ -6,23 +6,18 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class MeetingModelService {
     private http = inject(HttpClient);
+    private serverUrl = "http://localhost:8000/api";
 
     public getAll(): Observable<Meeting[]> {
-        return this.http.get<MeetingPage>(`http://localhost:8000/api/meetings`).pipe(
+        return this.http.get<MeetingPage>(`${this.serverUrl}/meetings`).pipe(
             map(({results})=> results)
         );
     }
-    
-    private mapToMeeting(
-        {id, title, started_at, created_at}:
-        {id: number, title: string, started_at: string, created_at: string}
-    ): Meeting {
-        return {
-            id,
-            title,
-            started_at: new Date(started_at),
-            created_at: new Date(created_at),
-        }
+
+    public getById(id: number): Observable<Meeting> {
+        console.log('fetching by id', id);
+        return this.http.get<Meeting>(`${this.serverUrl}/meetings/${id}`).pipe(
+        );
     }
 }
 

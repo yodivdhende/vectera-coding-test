@@ -6,6 +6,7 @@
         <div>{{meeting.title}}</div>
         <div>{{meeting.started_at | date:'d/M/yy h:mm a'}}</div>
         <div>{{meeting.created_at | date:'d/M/yy h:mm a'}}</div>
+        <div><a [routerLink]="[meeting.id]">Edit</a></div>
     }
     </div>
 }

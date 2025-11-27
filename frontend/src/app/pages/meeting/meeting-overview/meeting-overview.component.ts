@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MeetingModelService } from "src/app/data/meeting.model.service";
+import { RouterLink } from "@angular/router";
 
 @Component({
     selector: 'app-meeting-overview',
@@ -8,8 +9,9 @@ import { MeetingModelService } from "src/app/data/meeting.model.service";
     styleUrl: 'meeting-overview.component.scss',
     standalone: true,
     imports: [
-        CommonModule,
-    ],
+    CommonModule,
+    RouterLink
+],
     providers: [
         MeetingModelService,
     ]
