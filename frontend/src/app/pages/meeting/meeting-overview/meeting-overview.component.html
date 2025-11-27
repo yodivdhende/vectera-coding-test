@@ -1,3 +1,11 @@
+<h1>Meetings</h1>
 @if (meetings$ | async; as meetings) {
-    {{meetings | json}}
+    <div class="overview">
+    @for (meeting of meetings; track meeting.id) {
+        <div>{{meeting.id}}</div>
+        <div>{{meeting.title}}</div>
+        <div>{{meeting.started_at | date:'d/M/yy h:mm a'}}</div>
+        <div>{{meeting.created_at | date:'d/M/yy h:mm a'}}</div>
+    }
+    </div>
 }

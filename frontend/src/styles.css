@@ -1,1 +1,10 @@
 /* Add minimal styles as needed */
+body {
+    background-color: #44403B;
+    color: white;
+}
+
+a {
+    color: white;
+}
+

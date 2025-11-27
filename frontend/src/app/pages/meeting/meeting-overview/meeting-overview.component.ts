@@ -5,7 +5,7 @@ import { MeetingModelService } from "src/app/data/meeting.model.service";
 @Component({
     selector: 'app-meeting-overview',
     templateUrl: 'meeting-overview.component.html',
-    styleUrl: 'meeting-overview.component.html',
+    styleUrl: 'meeting-overview.component.scss',
     standalone: true,
     imports: [
         CommonModule,
