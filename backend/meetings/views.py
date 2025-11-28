@@ -35,7 +35,7 @@ class MeetingViewSet(viewsets.ModelViewSet):
             notes = meeting.notes.all().order_by("created_at")
             page = self.paginate_queryset(notes)
             if page is not None:
-                serializer = NoteSerializer(notes, many=True)
+                serializer = NoteSerializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
             serializer = NoteSerializer(notes, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
