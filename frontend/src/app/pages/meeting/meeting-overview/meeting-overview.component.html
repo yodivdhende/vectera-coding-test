@@ -1,14 +1,22 @@
 <h1>Meetings</h1>
 @if (meetings$ | async; as meetings) {
-    <div class="overview">
-    @for (meeting of meetings; track meeting.id) {
-        <div>{{meeting.id}}</div>
-        <div>{{meeting.title}}</div>
-        <div>{{meeting.started_at | date:'d/M/yy h:mm a'}}</div>
-        <div>{{meeting.created_at | date:'d/M/yy h:mm a'}}</div>
-        <div><a [routerLink]="[meeting.id]">Edit</a></div>
-    }
-    </div>
+<div class="overview">
+  @for (meeting of meetings; track meeting.id) {
+  <div>{{ meeting.id }}</div>
+  <div>{{ meeting.title }}</div>
+  <div>{{ meeting.started_at | date : "d/M/yy h:mm a" }}</div>
+  <div>{{ meeting.created_at | date : "d/M/yy h:mm a" }}</div>
+  <div><a [routerLink]="[meeting.id]">Edit</a></div>
+  }
+</div>
 } @else {
-  <p>loading...</p>
+<p>loading...</p>
+}
+@if(meetingPage$ | async; as meetingPage) {
+<button (click)="goPreviousPage()" [disabled]="meetingPage.hasPrevious === false">
+  back
+</button>
+<button (click)="goNextPage()" [disabled]="meetingPage.hasNext === false">
+  next
+</button>
 }

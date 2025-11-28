@@ -1,7 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { MeetingModelService } from "src/app/pages/meeting/data/meeting.model.service";
 import { RouterLink } from "@angular/router";
+import { map, shareReplay } from "rxjs";
+import { MeetingPageModelService } from "src/app/pages/meeting/data/meeting-page.model.service";
 
 @Component({
     selector: 'app-meeting-overview',
@@ -13,11 +14,26 @@ import { RouterLink } from "@angular/router";
     RouterLink
 ],
     providers: [
-        MeetingModelService, //TODO: this okay for now, if we want storage we should move this to the routes or module.
+        MeetingPageModelService, //TODO: this okay for now, if we want storage we should move this to the routes or module.
     ]
 })
 export class MeetingOverviewComponent{
-    private meetingModelService = inject(MeetingModelService);
+    private meetingModelService = inject(MeetingPageModelService);
 
-    public meetings$ = this.meetingModelService.getAll();
+    public meetingPage$ = this.meetingModelService.getPage().pipe(
+        shareReplay({bufferSize: 1, refCount: true})
+    );
+
+    public meetings$ = this.meetingPage$.pipe(
+        map(({meetings})=> meetings)
+    );
+
+    public goNextPage() {
+        this.meetingModelService.goNextPage();
+    }
+
+    public goPreviousPage(){
+        this.meetingModelService.goPreviousPage();
+    }
+
  }

@@ -8,11 +8,12 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, combineLatest, filter, map, shareReplay, switchMap, take, tap } from "rxjs";
-import { MeetingModelService } from "src/app/pages/meeting/data/meeting.model.service";
+import { MeetingPageModelService } from "src/app/pages/meeting/data/meeting-page.model.service";
 import { NotesModelService } from "src/app/pages/meeting/data/notes.model.service";
 import { SummaryModelService } from "src/app/pages/meeting/data/summary.model.service";
 import { NoteStoreService } from "src/app/services/note-store.service";
 import { SummaryService } from "src/app/services/summary.service";
+import { MeetingModelService } from "../data/meeting.model.service";
 
 @Component({
   selector: "app-meeting-overview",
@@ -20,7 +21,7 @@ import { SummaryService } from "src/app/services/summary.service";
   styleUrl: "meeting-detail.component.scss",
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  providers: [MeetingModelService, NotesModelService,NoteStoreService, SummaryModelService, SummaryService],
+  providers: [MeetingPageModelService, NotesModelService,NoteStoreService, SummaryModelService, SummaryService],
 })
 export class MeetingDetailComponent {
   private activeRoute = inject(ActivatedRoute);
