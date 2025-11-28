@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { MeetingModelService } from "src/app/data/meeting.model.service";
+import { MeetingModelService } from "src/app/pages/meeting/data/meeting.model.service";
 import { RouterLink } from "@angular/router";
 
 @Component({

@@ -9,34 +9,53 @@
   <div><a [routerLink]="[meeting.id]">Edit</a></div>
 </div>
 
-<div class="notes">
-  <h3>Notes:</h3>
-  @if(notes$ | async; as notes) {
-  <div class="notes-overview">
-    <div class="header">Id</div>
-    <div class="header">Author</div>
-    <div class="header">Content</div>
-    <div class="header">Created_at</div>
-    @for (note of notes; track $index) {
-    <div>{{ note.id }}</div>
-    <div>{{ note.author }}</div>
-    <div>{{ note.text }}</div>
-    <div>{{ note.created_at  | date : "d/M/yy h:mm a" }}</div>
-    }
-  </div>
-  } @else {
-  <p>loading...</p>
+<h3>Notes:</h3>
+@if(notes$ | async; as notes) {
+<div class="notes-overview">
+  <div class="header">Id</div>
+  <div class="header">Author</div>
+  <div class="header">Content</div>
+  <div class="header">Created_at</div>
+  @for (note of notes; track $index) {
+  <div>{{ note.id }}</div>
+  <div>{{ note.author }}</div>
+  <div>{{ note.text }}</div>
+  <div>{{ note.created_at | date : "d/M/yy h:mm a" }}</div>
   }
 </div>
 } @else {
+<p>loading...</p>
+} } @else {
 <p>loading...</p>
 }
 
 <h3>Add Note</h3>
 <div class="note-form">
-    <label for="author">author:</label>
-    <input id="author" type="text"  [formControl]="noteFormGroup.controls.author"/>
-    <label for="note-text">content:</label>
-    <textarea id="note-text" [formControl]="noteFormGroup.controls.text"></textarea>
-    <button (click)="addNote()" [disabled]="noteFormGroup.pristine || noteFormGroup.invalid">add</button>
+  <label for="author">author:</label>
+  <input
+    id="author"
+    type="text"
+    [formControl]="noteFormGroup.controls.author"
+  />
+  <label for="note-text">content:</label>
+  <textarea
+    id="note-text"
+    [formControl]="noteFormGroup.controls.text"
+  ></textarea>
+  <button
+    (click)="addNote()"
+    [disabled]="noteFormGroup.pristine || noteFormGroup.invalid"
+  >
+    add
+  </button>
 </div>
+
+<h3>Summary:</h3>
+@if(summaryView$ | async; as summary){
+<div class="summary">
+  <p>{{ summary.content }}</p>
+  <button (click)="generateSummary()">generate new summary</button>
+</div>
+}@else {
+<p>loading...</p>
+}

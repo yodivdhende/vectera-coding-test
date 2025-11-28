@@ -7,11 +7,11 @@ export class NotesModelService {
     private http = inject(HttpClient);
     private serverUrl = "http://localhost:8000/api"; //TODO should come from a config file
 
-    public getAll(meetingId: number): Observable<Note[]> {
+    public getAllForMeeting(meetingId: number): Observable<Note[]> {
         return this.http.get<Note[]>(`${this.serverUrl}/meetings/${meetingId}/notes/`)
     }
 
-    public add({meetingId, note}: {meetingId: number, note: NewNote}): Observable<void>{
+    public addToMeeting({meetingId, note}: {meetingId: number, note: NewNote}): Observable<void>{
         return this.http.post(`${this.serverUrl}/meetings/${meetingId}/notes/`, note).pipe(
             map(()=>undefined) //TODO: We don't aspect a result here we just want to the observable to handel error state
         );
