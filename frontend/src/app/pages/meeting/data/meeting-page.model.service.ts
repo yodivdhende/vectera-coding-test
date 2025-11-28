@@ -21,7 +21,7 @@ export class MeetingPageModelService {
                 return {
                     hasNext:meetingPage.next != null, 
                     hasPrevious: meetingPage.previous != null,
-                    meetings: meetingPage.results,
+                    meetings: this.mapMeetingPageResultsToMeetings(meetingPage.results),
                 }
             })
         )
@@ -34,11 +34,29 @@ export class MeetingPageModelService {
     public goPreviousPage() {
         this.currentRoute.next(this.previousRoute);
     }
+
+    private mapMeetingPageResultsToMeetings(results: MeetingPage['results']): Meeting[] {
+        return results.map(({id, title, started_at, created_at, note_count}) => {
+            return {
+                id,
+                title,
+                noteCount: note_count,
+                startedAt: new Date(started_at),
+                createdAt: new Date(created_at),
+            }  
+        })
+    }
 }
 
 type MeetingPage = {
     count: number;
     next: string | null;
     previous: string | null;
-    results: Meeting[]; 
+    results: {
+        id: number;
+        title: string;
+        started_at: string;
+        created_at: string;
+        note_count: number;
+    }[]; 
 }

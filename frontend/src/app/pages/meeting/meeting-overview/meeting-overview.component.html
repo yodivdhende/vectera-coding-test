@@ -1,11 +1,18 @@
 <h1>Meetings</h1>
 @if (meetings$ | async; as meetings) {
 <div class="overview">
+  <div>id</div>
+  <div>title</div>
+  <div>startedAt</div>
+  <div>notes count</div>
+  <div>summary status</div>
+  <div>action</div>
   @for (meeting of meetings; track meeting.id) {
   <div>{{ meeting.id }}</div>
   <div>{{ meeting.title }}</div>
-  <div>{{ meeting.started_at | date : "d/M/yy h:mm a" }}</div>
-  <div>{{ meeting.created_at | date : "d/M/yy h:mm a" }}</div>
+  <div>{{ meeting.startedAt | date : "d/M/yy h:mm a" }}</div>
+  <div>{{ meeting.noteCount}}</div>
+  <div>{{ meeting.summaryStatus}}</div>
   <div><a [routerLink]="[meeting.id]">Edit</a></div>
   }
 </div>

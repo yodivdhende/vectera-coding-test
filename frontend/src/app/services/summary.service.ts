@@ -2,12 +2,12 @@ import { inject, Injectable } from "@angular/core";
 import {
   BehaviorSubject,
   catchError,
-  filter,
   map,
   Observable,
   of,
+  Subject,
   switchMap,
-  take,
+  takeUntil,
   tap,
   timer,
 } from "rxjs";
@@ -19,15 +19,28 @@ export class SummaryService {
   private summaryModelService = inject(SummaryModelService);
   private refreshSummary$$ = new BehaviorSubject<void>(undefined);
 
-  public getSummaryContentForMeeting(meetingId: number): Observable<string> {
+  public getContent(meetingId: number): Observable<string> {
     return this.refreshSummary$$.pipe(
       switchMap(() => this.pollingForSummary(meetingId)),
-      map(({content}) => content),
+      map(({content, status}) => {
+        if(status === SummaryStatus.pending) return 'Pending';
+        return content;
+      }),
       catchError((error) => {
         if(error.status === 404) return of('No summary yet');
         throw new Error(error);
       })
     );
+  }
+
+  public getStatus(meetingId: number): Observable<string> {
+      return this.pollingForSummary(meetingId).pipe(
+        map(({status}) => status),
+        catchError((error) => {
+          if(error.status === 404) return of('No summary yet');
+          throw new Error(error);
+        })
+      );
   }
 
   public generateNewSummary(meetingId: number): Observable<void> {
@@ -40,10 +53,15 @@ export class SummaryService {
   }
 
   private pollingForSummary(meetingId: number): Observable<Summary> { 
+    const stopPolling$$ = new Subject<void>();
     return timer(0, 500).pipe(
+      takeUntil(stopPolling$$),
       switchMap(() => this.summaryModelService.getByMeetingId(meetingId)),
-      filter(({ status }) => status !== SummaryStatus.pending),
-      take(1),
+      tap(({status})=>{
+        if(status !== SummaryStatus.pending) {
+          stopPolling$$.next()
+        }
+      })
     )
   }
 }
