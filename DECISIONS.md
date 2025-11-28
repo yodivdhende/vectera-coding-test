@@ -46,4 +46,4 @@ Add more validators to the note form, such as whitespace checks.
 
 ## Time spent per area
 I definitely went over the 6 hours, but most of the time was spent learning the basics of `Django` and `DRF`.  
-With the learning included, I think the time spent was pretty even between the frontend and backend (though there was a lot more to do on the frontend).
+Without the learning time included, I think it was around 30% backend and 70% frontend. There was simply a lot more setup required on the frontend.
