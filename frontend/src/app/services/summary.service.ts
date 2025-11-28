@@ -1,8 +1,11 @@
 import { inject, Injectable } from "@angular/core";
 import {
   BehaviorSubject,
+  catchError,
   filter,
+  map,
   Observable,
+  of,
   switchMap,
   take,
   tap,
@@ -16,9 +19,14 @@ export class SummaryService {
   private summaryModelService = inject(SummaryModelService);
   private refreshSummary$$ = new BehaviorSubject<void>(undefined);
 
-  public getLatestSummaryForMeeting(meetingId: number): Observable<Summary> {
+  public getSummaryContentForMeeting(meetingId: number): Observable<string> {
     return this.refreshSummary$$.pipe(
-      switchMap(() => this.pollingForSummary(meetingId))
+      switchMap(() => this.pollingForSummary(meetingId)),
+      map(({content}) => content),
+      catchError((error) => {
+        if(error.status === 404) return of('No summary yet');
+        throw new Error(error);
+      })
     );
   }
 

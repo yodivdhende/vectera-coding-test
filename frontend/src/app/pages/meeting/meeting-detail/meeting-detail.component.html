@@ -56,7 +56,7 @@
 <h3>Summary:</h3>
 @if(summaryView$ | async; as summary){
 <div class="summary">
-  <p>{{ summary.content }}</p>
+  <p>{{ summary }}</p>
   <button (click)="generateSummary()">generate new summary</button>
 </div>
 }@else {

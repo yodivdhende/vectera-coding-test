@@ -45,7 +45,7 @@ export class MeetingDetailComponent {
 
   private summaryIsLoading$ = new BehaviorSubject<boolean>(true);
   private summary$ = this.meetingId$.pipe(
-    switchMap((id) => this.summaryService.getLatestSummaryForMeeting(id)),
+    switchMap((id) => this.summaryService.getSummaryContentForMeeting(id)),
     tap(() => this.summaryIsLoading$.next(false)),
   );
   public summaryView$ = combineLatest([
