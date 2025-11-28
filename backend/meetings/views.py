@@ -4,6 +4,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 
+
 from .models import Meeting, Note, Summary
 from .serializers import MeetingSerializer, NoteSerializer, SummarySerializer
 from meetings import serializers
@@ -26,15 +27,16 @@ class MeetingViewSet(viewsets.ModelViewSet):
     serializer_class = MeetingSerializer
 
 
-    @action(detail=True, methods=["get", "post"], url_path="notes")
+    @action(detail=True, methods=["get", "post"], url_path="notes", )
     def notes(self, request, pk=None):
-        """GET -> list notes for a meeting
-        POST -> create a new note for the meeting
-        """
         meeting = self.get_object()
 
         if request.method == "GET":
-            notes = meeting.notes.all()
+            notes = meeting.notes.all().order_by("created_at")
+            page = self.paginate_queryset(notes)
+            if page is not None:
+                serializer = NoteSerializer(notes, many=True)
+                return self.get_paginated_response(serializer.data)
             serializer = NoteSerializer(notes, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
