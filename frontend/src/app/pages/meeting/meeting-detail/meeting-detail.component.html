@@ -8,24 +8,27 @@
   <div>{{ meeting.created_at | date : "d/M/yy h:mm a" }}</div>
   <div><a [routerLink]="[meeting.id]">Edit</a></div>
 </div>
+} @else {
+<p>loading...</p>
+}
 
 <h3>Notes:</h3>
-@if(notes$ | async; as notes) {
+@if(notePage$ | async; as notePage) {
 <div class="notes-overview">
   <div class="header">Id</div>
   <div class="header">Author</div>
   <div class="header">Content</div>
   <div class="header">Created_at</div>
-  @for (note of notes; track $index) {
+  @for (note of notePage.notes; track $index) {
   <div>{{ note.id }}</div>
   <div>{{ note.author }}</div>
   <div>{{ note.text }}</div>
   <div>{{ note.created_at | date : "d/M/yy h:mm a" }}</div>
   }
+  <button (click)="getPreviousNotes()" [disabled]="notePage.hasPrevious === false">previous</button>
+  <button (click)="getNextNotes()" [disabled]="notePage.hasNext === false">next</button>
 </div>
 } @else {
-<p>loading...</p>
-} } @else {
 <p>loading...</p>
 }
 

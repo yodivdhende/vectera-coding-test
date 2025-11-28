@@ -18,11 +18,8 @@ export class MeetingPageModelService {
             map(meetingPage => {
                 this.nextRoute = meetingPage.next;  //TODO: I don't like this side effect should be handle differnt
                 this.previousRoute = meetingPage.previous;
-                const hasNext = meetingPage.next != null;
-                console.log(hasNext);
-
                 return {
-                    hasNext, 
+                    hasNext:meetingPage.next != null, 
                     hasPrevious: meetingPage.previous != null,
                     meetings: meetingPage.results,
                 }

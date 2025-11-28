@@ -8,12 +8,10 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, combineLatest, filter, map, shareReplay, switchMap, take, tap } from "rxjs";
-import { MeetingPageModelService } from "src/app/pages/meeting/data/meeting-page.model.service";
-import { NotesModelService } from "src/app/pages/meeting/data/notes.model.service";
 import { SummaryModelService } from "src/app/pages/meeting/data/summary.model.service";
-import { NoteStoreService } from "src/app/services/note-store.service";
 import { SummaryService } from "src/app/services/summary.service";
 import { MeetingModelService } from "../data/meeting.model.service";
+import { NotePageModelService } from "../data/note-page.model.service";
 
 @Component({
   selector: "app-meeting-overview",
@@ -21,12 +19,12 @@ import { MeetingModelService } from "../data/meeting.model.service";
   styleUrl: "meeting-detail.component.scss",
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  providers: [MeetingPageModelService, NotesModelService,NoteStoreService, SummaryModelService, SummaryService],
+  providers: [MeetingModelService, NotePageModelService, SummaryModelService, SummaryService],
 })
 export class MeetingDetailComponent {
   private activeRoute = inject(ActivatedRoute);
   private meetingModelService = inject(MeetingModelService);
-  private noteService = inject(NoteStoreService);
+  private noteService = inject(NotePageModelService);
   private summaryService = inject(SummaryService);
 
   private meetingId$ = this.activeRoute.paramMap.pipe(
@@ -57,9 +55,17 @@ export class MeetingDetailComponent {
     map(([loading, summary]) => loading ? null : summary),
   )
 
-  public notes$ = this.meetingId$.pipe(
-    switchMap((id) => this.noteService.getAllForMeeting(id))
+  public notePage$ = this.meetingId$.pipe(
+    switchMap((id) => this.noteService.getPage(id))
   );
+
+  public getPreviousNotes() {
+    this.noteService.goPreviousPage();
+  }
+
+  public getNextNotes() {
+    this.noteService.goNextPage();
+  }
 
   public noteFormGroup = new FormGroup({
     author: new FormControl<string | null>(null, {
@@ -69,6 +75,7 @@ export class MeetingDetailComponent {
       validators: [Validators.nullValidator, Validators.minLength(1)], //TODO: create and add validator for white spaces
     }),
   });
+
 
   public addNote() {
     const noteForm = this.noteFormGroup.value;

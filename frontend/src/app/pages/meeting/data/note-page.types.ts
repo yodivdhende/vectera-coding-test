@@ -1,3 +1,8 @@
+export type NotePageView = {
+    hasNext: boolean;
+    hasPrevious: boolean;
+    notes: Note[];
+}
 export type Note = {
     id: number;
     author: string;
